@@ -1,0 +1,14 @@
+@contentType = application/json
+
+#########################################
+### Request: GET /utr-check/{utrNumber}
+#########################################
+
+### Path Parameter: utrNumber
+@utrNumber = 4733150503
+
+
+GET http://localhost:5283/utr-check/{{utrNumber}}
+Content-Type: {{contentType}}
+
+
