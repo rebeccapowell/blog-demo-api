@@ -1,0 +1,11 @@
+@contentType = application/json
+
+################################
+### Request: GET /utr-generate
+################################
+
+
+GET http://localhost:5283/utr-generate
+Content-Type: {{contentType}}
+
+
