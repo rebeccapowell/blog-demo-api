@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Powell.UtrTaxNumberTools;
 using Scalar.AspNetCore;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -43,6 +45,8 @@ app.MapGet("/utr-generate", () =>
 
 	})
 	.WithName("GenerateUtrNumber");
+
+app.MapHealthChecks("/healthz").RequireHost("*:4318");
 
 app.Run();
 
