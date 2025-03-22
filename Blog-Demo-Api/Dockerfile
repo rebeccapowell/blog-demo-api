@@ -1,5 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget
 USER $APP_UID
 WORKDIR /app
 EXPOSE 4317
