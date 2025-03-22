@@ -23,6 +23,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # coolify has it's own way
-#HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:4318/healthz || exit
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://127.0.0.1:4318/healthz || exit
 
 ENTRYPOINT ["dotnet", "Blog-Demo-Api.dll"]
