@@ -1,4 +1,5 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+# needed to add wget, even though curl should have been enough.
 RUN apt-get update && apt-get install -y \
     curl \
     wget
@@ -24,9 +25,10 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+# override the stadard 8080 and use a separate port for internal healthchecks
 ENV ASPNETCORE_URLS=http://0.0.0.0:4317;http://0.0.0.0:4318
 
-# coolify has it's own way
+# coolify picks this up
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:4318/healthz || exit
 
 ENTRYPOINT ["dotnet", "Blog-Demo-Api.dll"]
