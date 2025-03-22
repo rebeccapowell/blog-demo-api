@@ -24,6 +24,8 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+ENV ASPNETCORE_URLS=http://0.0.0.0:4317;http://0.0.0.0:4318
+
 # coolify has it's own way
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:4318/healthz || exit
 
