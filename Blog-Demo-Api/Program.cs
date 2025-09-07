@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Powell.UtrTaxNumberTools;
 using Scalar.AspNetCore;
+using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +28,18 @@ var app = builder.Build();
 
 // Behind a proxy (Cloudflare/Traefik/Caddy): respect X-Forwarded-*
 // This helps avoid HTTPS redirect loops and ensures correct scheme/origin.
-app.UseForwardedHeaders(new ForwardedHeadersOptions
+var fwd = new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                       ForwardedHeaders.XForwardedProto |
+                       ForwardedHeaders.XForwardedHost
+};
+// trust the Coolify Docker network
+fwd.KnownNetworks.Clear();
+fwd.KnownProxies.Clear();
+fwd.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.1.0"), 24));
+
+app.UseForwardedHeaders(fwd);
 
 // Dev-only API docs
 if (app.Environment.IsDevelopment())

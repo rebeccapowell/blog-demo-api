@@ -8,7 +8,7 @@
 @utrNumber = 4733150503
 
 
-GET http://localhost:5283/utr-check/{{utrNumber}}
+GET https://e0cc40oko48g8ckwg88swkcs.neohq.com/utr-check/{{utrNumber}}
 Content-Type: {{contentType}}
 
 
