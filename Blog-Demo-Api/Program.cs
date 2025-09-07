@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
 	});
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapGet("/utr-check/{utrNumber}", ([FromRoute] string utrNumber) =>
 	{
