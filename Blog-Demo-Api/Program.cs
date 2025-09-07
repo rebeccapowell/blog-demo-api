@@ -21,10 +21,9 @@ builder.WebHost.ConfigureKestrel(o =>
 
 builder.Services.AddHttpLogging(logging =>
 {
-    logging.LoggingFields = HttpLoggingFields.RequestMethod |
-                            HttpLoggingFields.RequestPath |
-                            HttpLoggingFields.RequestQuery |
-                            HttpLoggingFields.ResponseStatusCode;
+    logging.LoggingFields =
+        HttpLoggingFields.RequestPropertiesAndHeaders |
+        HttpLoggingFields.ResponseStatusCode;
 });
 
 // Services
