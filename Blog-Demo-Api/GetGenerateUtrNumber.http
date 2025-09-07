@@ -5,7 +5,7 @@
 ################################
 
 
-GET http://localhost:5283/utr-generate
+GET https://e0cc40oko48g8ckwg88swkcs.neohq.com/utr-generate
 Content-Type: {{contentType}}
 
 
