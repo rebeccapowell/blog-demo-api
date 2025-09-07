@@ -24,6 +24,12 @@ builder.Services.AddHttpLogging(logging =>
     logging.LoggingFields =
         HttpLoggingFields.RequestPropertiesAndHeaders |
         HttpLoggingFields.ResponseStatusCode;
+    
+    // Add headers you want visible
+    logging.RequestHeaders.Add("CF-Connecting-IP");
+    logging.RequestHeaders.Add("X-Real-IP");
+    logging.RequestHeaders.Add("X-Forwarded-For");   // if Caddy sets this
+    logging.RequestHeaders.Add("X-Forwarded-Proto");
 });
 
 // Services
