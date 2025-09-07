@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -16,6 +17,14 @@ builder.WebHost.ConfigureKestrel(o =>
 {
     o.ListenAnyIP(8080); // public traffic via ingress
     o.ListenAnyIP(8081); // management/health, not exposed by ingress
+});
+
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.RequestMethod |
+                            HttpLoggingFields.RequestPath |
+                            HttpLoggingFields.RequestQuery |
+                            HttpLoggingFields.ResponseStatusCode;
 });
 
 // Services
@@ -40,6 +49,8 @@ fwd.KnownProxies.Clear();
 fwd.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.1.0"), 24));
 
 app.UseForwardedHeaders(fwd);
+
+app.UseHttpLogging();
 
 // Dev-only API docs
 if (app.Environment.IsDevelopment())
