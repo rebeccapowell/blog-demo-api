@@ -1,2 +1,2 @@
 # blog-demo-api
-simple API using .NET minimal APIs for deployment to Coolify
+simple API using .NET minimal APIs for deployment to Coolify.
